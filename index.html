@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Portafolio - CSS Tradicional</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Fondo animado con burbujas -->
+    <div class="fondo-animado">
+        <div class="burbuja"></div>
+        <div class="burbuja"></div>
+        <div class="burbuja"></div>
+        <div class="burbuja"></div>
+        <div class="burbuja"></div>
+    </div>
+
+    <!-- Modal para la imagen ampliada -->
+    <div id="modalImg" class="modal">
+        <div class="modal-contenido">
+            <span class="modal-cerrar">&times;</span>
+            <img src="/img/retrato.png" alt="Foto de perfil ampliada" id="modalImagen">
+        </div>
+    </div>
+
+    <header class="sitio-header">
+        <div class="contenedor">
+            <nav class="navegacion">
+                <a href="#" class="logo">Portafolio</a>
+                <button class="menu-hamburguesa" id="menuToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="#perfil">Perfil</a></li>
+                    <li><a href="#proyectos">Proyectos</a></li>
+                    <li><a href="#contacto">Contáctame</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="sitio-principal">
+
+        <section id="perfil" class="seccion perfil">
+            <div class="contenedor">
+                <img src="/img/retrato.png" alt="Foto de perfil" class="perfil-img" id="abrirModal">
+                <div class="perfil-content">
+                    <h1 class="perfil-nombre">Mauricio Alejandro Vaca Cedeño</h1>
+                    <p class="perfil-titulo">Estudiante de Sistemas y Gestión de Data | ISTER </p>
+                    <p class="perfil-descripcion">
+                        Bienvenido a mi portafolio. Soy un estudiante apasionado por crear 
+                        soluciones web limpias y eficientes.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="proyectos" class="seccion proyectos">
+            <div class="contenedor">
+                <h2>Mis Proyectos</h2>
+                <div class="proyectos-grid">
+                    
+                    <article class="tarjeta-proyecto">
+                        <h3>Proyecto "Calculadora Web"</h3>
+                        <p>Una calculadora funcional construida con HTML, CSS y JavaScript puro.</p>
+                        <a href="#" class="boton">Ver proyecto</a>
+                    </article>
+
+                    <article class="tarjeta-proyecto">
+                        <h3>Proyecto "Página de Tareas"</h3>
+                        <p>Una aplicación simple de 'To-Do List' para gestionar tareas diarias.</p>
+                        <a href="#" class="boton">Ver proyecto</a>
+                    </article>
+
+                    <article class="tarjeta-proyecto">
+                        <h3>Proyecto "Clon de Blog"</h3>
+                        <p>Maquetación de la página principal de un blog popular usando CSS Grid.</p>
+                        <a href="#" class="boton">Ver proyecto</a>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" class="seccion contacto">
+            <div class="contenedor">
+                <h2>Contactame</h2>
+                <p>Estoy disponible para colaborar en proyectos.</p>
+                <p>Envíame un correo electrónico a:</p>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mauricio.vaca@ister.edu.ec&su=Mensaje%20desde%20tu%20portafolio&body=Hola%20Alejandro," class="boton-contacto">mauricio.vaca@ister.edu.ec</a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="sitio-footer">
+        <div class="contenedor">
+            <p>&copy; 2025 Tu Nombre. Construido con CSS Tradicional.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== MENÚ HAMBURGUESA ==========
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+
+        // Cerrar menú cuando se hace click en un link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                menuToggle.classList.remove('active');
+            });
+        });
+
+        // ========== ANIMACIONES AL SCROLL ==========
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        // Observar todas las tarjetas de proyectos
+        document.querySelectorAll('.tarjeta-proyecto').forEach(tarjeta => {
+            observer.observe(tarjeta);
+        });
+
+        // Observar secciones
+        document.querySelectorAll('.seccion').forEach(seccion => {
+            observer.observe(seccion);
+        });
+
+        // ========== MODAL PARA IMAGEN ==========
+        const modal = document.getElementById('modalImg');
+        const abrirModal = document.getElementById('abrirModal');
+        const cerrar = document.querySelector('.modal-cerrar');
+
+        abrirModal.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        cerrar.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Cerrar modal con tecla ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+
+</body>
+</html>

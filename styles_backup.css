@@ -1,0 +1,895 @@
+/* ======== 1. GLOBALES Y RESET BÁSICO ======== */
+/* 'box-sizing' es la regla MÁS importante. 
+   Hace que el 'padding' y 'border' se incluyan DENTRO del ancho/alto, 
+   y no que se sumen, facilitando los cálculos. */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Para que los enlaces <a> que usamos como anclas (#) se deslicen suavemente */
+html {
+    scroll-behavior: smooth;
+    /* Variables CSS - Tema Oscuro TRON */
+    --bg-primary: #0a0e27;
+    --bg-secondary: #0f1629;
+    --bg-dark: #050a15;
+    --text-primary: #ffffff;
+    --text-secondary: #ffffff;
+    --text-light: #ffffff;
+    --accent: #00ffff;
+    --accent-2: #0099ff;
+    --accent-3: #00ccff;
+    --shadow: rgba(0, 255, 255, 0.1);
+    --shadow-hover: rgba(0, 255, 255, 0.3);
+    --border: #00ffff;
+    --bg-footer: #020408;
+    --text-footer: #ffffff;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif, sans-serif;
+    line-height: 1.6;
+    background-color: transparent;
+    color: var(--text-primary);
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* ========== FONDO ANIMADO CON BURBUJAS ========== */
+.fondo-animado {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #050812 0%, #0a0f1a 50%, #050812 100%);
+    background-size: 200% 200%;
+    opacity: 1;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+    animation: movimientoFondo 15s ease infinite;
+}
+
+@keyframes movimientoFondo {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.burbuja {
+    position: absolute;
+    background: radial-gradient(circle, var(--accent) 0%, var(--accent-2) 100%);
+    opacity: 0.4;
+    border-radius: 50%;
+    animation: flotaBurbuja 20s infinite ease-in-out;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4), inset 0 0 30px rgba(0, 255, 255, 0.2);
+}
+
+.burbuja:nth-child(1) {
+    width: 200px;
+    height: 200px;
+    left: 10%;
+    top: 10%;
+    animation-delay: 0s;
+}
+
+.burbuja:nth-child(2) {
+    width: 150px;
+    height: 150px;
+    left: 80%;
+    top: 20%;
+    animation-delay: 5s;
+    background: radial-gradient(circle, var(--accent-2) 0%, var(--accent-3) 100%);
+}
+
+.burbuja:nth-child(3) {
+    width: 180px;
+    height: 180px;
+    left: 50%;
+    top: 60%;
+    animation-delay: 10s;
+    background: radial-gradient(circle, var(--accent-3) 0%, var(--accent) 100%);
+}
+
+.burbuja:nth-child(4) {
+    width: 120px;
+    height: 120px;
+    left: 20%;
+    top: 70%;
+    animation-delay: 7s;
+}
+
+.burbuja:nth-child(5) {
+    width: 160px;
+    height: 160px;
+    left: 85%;
+    top: 50%;
+    animation-delay: 3s;
+    background: radial-gradient(circle, var(--accent) 0%, var(--accent-2) 100%);
+}
+
+@keyframes flotaBurbuja {
+    0%, 100% {
+        transform: translateY(0px) translateX(0px);
+    }
+    25% {
+        transform: translateY(-50px) translateX(30px);
+    }
+    50% {
+        transform: translateY(-100px) translateX(-20px);
+    }
+    75% {
+        transform: translateY(-50px) translateX(40px);
+    }
+}
+
+/* Una clase 'contenedor' que usaremos para centrar el contenido */
+.contenedor {
+    width: 90%;
+    max-width: 1100px; /* Ancho máximo para pantallas grandes */
+    margin: 0 auto; /* El truco para centrar un bloque */
+}
+
+/* Estilo general para todas nuestras secciones principales */
+.seccion {
+    padding: 60px 0; /* 60px de espacio arriba/abajo, 0 a los lados */
+    text-align: center;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+    position: relative;
+}
+
+/* ======== ANIMACIONES ==========  */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+@keyframes glow {
+    0%, 100% {
+        text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+    }
+    50% {
+        text-shadow: 0 0 40px rgba(0, 255, 255, 1), 0 0 60px rgba(0, 153, 255, 0.8);
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+.tarjeta-proyecto.fade-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ======== 2. ENCABEZADO Y NAVEGACIÓN ======== */
+.sitio-header {
+    background: linear-gradient(90deg, #050812 0%, #0a0f1a 50%, #050812 100%);
+    color: var(--text-light);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.4), inset 0 0 20px rgba(0, 255, 255, 0.1);
+    border-bottom: 2px solid var(--accent);
+    animation: headerGlow 3s ease-in-out infinite;
+}
+
+@keyframes headerGlow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3), inset 0 0 10px rgba(0, 255, 255, 0.05);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(0, 255, 255, 0.15);
+    }
+}
+
+/* Aquí usamos FLEXBOX para alinear el logo y los links */
+.navegacion {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-light);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    animation: glow 3s ease-in-out infinite;
+}
+
+.logo:hover {
+    color: var(--accent);
+    transform: scale(1.15);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+}
+
+.nav-links li {
+    margin-left: 20px;
+}
+
+.nav-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: var(--accent);
+    text-shadow: 0 0 10px rgba(0, 220, 255, 0.8);
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+    box-shadow: 0 0 10px var(--accent);
+}
+
+/* ========== MENÚ HAMBURGUESA ========== */
+.menu-hamburguesa {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.menu-hamburguesa span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-light);
+    border-radius: 2px;
+    transition: 0.3s ease;
+    box-shadow: 0 0 5px rgba(0, 220, 255, 0.5);
+}
+
+.menu-hamburguesa.active span:nth-child(1) {
+    transform: rotate(45deg) translate(10px, 10px);
+    box-shadow: 0 0 10px rgba(255, 0, 126, 0.8);
+}
+
+.menu-hamburguesa.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-hamburguesa.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+    box-shadow: 0 0 10px rgba(255, 0, 126, 0.8);
+}
+
+/* ========== TOGGLE TEMA ========== */
+.toggle-tema {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 0 5px rgba(0, 220, 255, 0.5));
+}
+
+.toggle-tema:hover {
+    transform: rotate(20deg) scale(1.2);
+    filter: drop-shadow(0 0 10px rgba(255, 0, 126, 0.8));
+}
+
+/* ========== RESPONSIVE - MENÚ MÓVIL ========== */
+@media (max-width: 768px) {
+    .menu-hamburguesa {
+        display: flex;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background: linear-gradient(180deg, var(--bg-dark) 0%, rgba(13, 13, 13, 0.95) 100%);
+        padding: 20px 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .nav-links.active {
+        max-height: 300px;
+    }
+
+    .nav-links li {
+        margin-left: 0;
+        padding: 10px 0;
+    }
+
+    .nav-links a::after {
+        display: none;
+    }
+
+    .nav-links a:hover {
+        color: var(--accent);
+    }
+}
+
+/* ======== 3. SECCIÓN DE PERFIL (HERO) ======== */
+.perfil {
+    background: transparent;
+    padding: 80px 0 !important;
+    position: relative;
+    border-bottom: 2px solid var(--accent);
+    box-shadow: inset 0 0 40px rgba(0, 255, 255, 0.1);
+}
+
+.perfil .contenedor {
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.perfil-content {
+    flex: 1;
+    text-align: center;
+}
+
+.perfil-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid var(--accent);
+    margin-bottom: 20px;
+    margin-left: 60px;
+    transition: all 0.3s ease;
+    animation: rotateImg 20s linear infinite;
+    box-shadow: 0 0 50px rgba(0, 255, 255, 0.8), inset 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+@keyframes rotateImg {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    50% {
+        transform: scale(1.1) rotate(5deg);
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+.perfil-img:hover {
+    animation: none;
+    transform: scale(1.2) rotate(10deg);
+    box-shadow: 0 0 80px rgba(0, 255, 255, 1), 0 0 50px rgba(0, 153, 255, 0.8), inset 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+.perfil-nombre {
+    font-size: 42px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    animation: slideInLeft 0.8s ease-out;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    letter-spacing: 2px;
+    position: relative;
+    display: block;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.perfil-nombre::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
+    transition: width 0.4s ease;
+}
+
+.perfil-nombre:hover {
+    color: var(--accent-3);
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 153, 255, 0.6);
+}
+
+.perfil-nombre:hover::after {
+    width: 100%;
+    box-shadow: 0 0 15px var(--accent);
+}
+
+.perfil-titulo {
+    font-size: 20px;
+    color: #ffffff;
+    margin-bottom: 15px;
+    animation: slideInRight 0.8s ease-out 0.2s backwards;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+.perfil-descripcion {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 16px;
+    color: #ffffff;
+    animation: fadeInUp 0.8s ease-out 0.4s backwards;
+    line-height: 1.8;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+}
+
+/* ======== 4. SECCIÓN DE PROYECTOS ======== */
+.proyectos {
+    background: transparent;
+    padding: 80px 0 !important;
+    position: relative;
+    border-bottom: 2px solid var(--accent);
+    box-shadow: inset 0 0 40px rgba(0, 255, 255, 0.1);
+}
+
+.proyectos h2 {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #ffffff;
+    font-size: 36px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.proyectos h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+    border-radius: 2px;
+    box-shadow: 0 0 20px var(--accent);
+    animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Aquí usamos CSS GRID para las tarjetas de proyecto */
+.proyectos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* La tarjeta individual */
+.tarjeta-proyecto {
+    background-color: rgba(10, 15, 26, 0.8);
+    border: 2px solid var(--accent);
+    border-radius: 8px;
+    padding: 25px;
+    text-align: left;
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0, 255, 255, 0.05);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    position: relative;
+    overflow: hidden;
+    animation: slideInLeft 0.6s ease-out forwards;
+    color: #ffffff;
+}
+
+.tarjeta-proyecto::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+    transition: left 0.6s ease;
+}
+
+.tarjeta-proyecto:hover::before {
+    left: 100%;
+}
+
+.tarjeta-proyecto:hover {
+    transform: translateY(-15px) scale(1.05) rotateY(5deg);
+    box-shadow: 0 0 60px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(0, 255, 255, 0.15);
+    border-color: var(--accent-3);
+}
+
+.tarjeta-proyecto h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #ffffff;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+.tarjeta-proyecto:hover h3 {
+    color: var(--accent-3);
+    text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(0, 153, 255, 0.6);
+}
+
+.tarjeta-proyecto p {
+    font-size: 15px;
+    margin-bottom: 20px;
+    color: #ffffff;
+    line-height: 1.8;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.2);
+}
+
+/* Estilo para los botones */
+.boton {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 100%);
+    color: #000;
+    padding: 10px 18px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(0, 255, 255, 0.2);
+    border: 1px solid var(--accent);
+}
+
+.boton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: left 0.5s ease;
+}
+
+.boton:hover {
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.8), inset 0 0 20px rgba(0, 255, 255, 0.3);
+}
+
+.boton:hover::after {
+    left: 100%;
+}
+
+/* ======== 5. SECCIÓN DE CONTACTO ======== */
+.contacto {
+    background: transparent;
+    color: var(--text-light);
+    padding: 100px 0 !important;
+    position: relative;
+    overflow: hidden;
+    border-top: 2px solid var(--accent);
+    box-shadow: inset 0 0 40px rgba(0, 255, 255, 0.1);
+}
+
+.contacto::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 153, 255, 0.1) 0%, transparent 50%);
+    animation: gradientShift 8s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+.contacto > * {
+    position: relative;
+    z-index: 1;
+}
+
+.contacto h2 {
+    color: #ffffff;
+    margin-bottom: 30px;
+    font-size: 36px;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.contacto p {
+    color: #ffffff;
+    margin-bottom: 30px;
+    font-size: 16px;
+    text-shadow: 0 0 6px rgba(0, 255, 255, 0.2);
+    animation: fadeInUp 0.8s ease-out 0.2s backwards;
+}
+
+.boton-contacto {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-2) 50%, var(--accent-3) 100%);
+    color: #000;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 0 40px rgba(0, 255, 255, 0.6), inset 0 0 20px rgba(0, 255, 255, 0.2);
+    position: relative;
+    overflow: hidden;
+    animation: pulse 2s ease-in-out infinite;
+    border: 1px solid var(--accent);
+}
+
+.boton-contacto::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+.boton-contacto:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.boton-contacto:hover {
+    transform: scale(1.15) translateY(-5px);
+    box-shadow: 0 0 80px rgba(0, 255, 255, 1), 0 0 50px rgba(0, 153, 255, 0.8), inset 0 0 30px rgba(0, 255, 255, 0.5);
+}
+
+/* ======== 6. PIE DE PÁGINA ======== */
+.sitio-footer {
+    background: linear-gradient(90deg, var(--bg-footer) 0%, rgba(13, 13, 13, 0.9) 50%, var(--bg-footer) 100%);
+    color: var(--text-footer);
+    text-align: center;
+    padding: 20px 0;
+    font-size: 14px;
+    border-top: 2px solid var(--accent);
+    box-shadow: 0 -2px 15px rgba(0, 220, 255, 0.2);
+}
+
+/* Para que los enlaces <a> que usamos como anclas (#) se deslicen suavemente */
+html {
+    scroll-behavior: smooth;
+    /* Variables CSS para cambiar entre temas */
+    --bg-primary: #f4f4f4;
+    --bg-secondary: white;
+    --bg-dark: #333;
+    --text-primary: #333;
+    --text-secondary: #333;
+    --text-light: white;
+    --accent: #00bcd4;
+    --shadow: rgba(0,0,0,0.05);
+    --shadow-hover: rgba(0,0,0,0.1);
+    --border: #ddd;
+    --bg-footer: #222;
+    --text-footer: #aaa;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html[data-tema="dark"] {
+    --bg-primary: #1a1a1a;
+    --bg-secondary: #2d2d2d;
+    --bg-dark: #0d0d0d;
+    --text-primary: #e0e0e0;
+    --text-secondary: #e0e0e0;
+    --text-light: white;
+    --accent: #00d4ff;
+    --shadow: rgba(0,0,0,0.3);
+    --shadow-hover: rgba(0,0,0,0.5);
+    --border: #444;
+    --bg-footer: #0d0d0d;
+    --text-footer: #777;
+}
+
+body {
+    font-family: 'Times New Roman', Times, serif, sans-serif;
+    line-height: 1.6;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+/* Una clase 'contenedor' que usaremos para centrar el contenido */
+.contenedor {
+    width: 90%;
+    max-width: 1100px; /* Ancho máximo para pantallas grandes */
+    margin: 0 auto; /* El truco para centrar un bloque */
+}
+
+/* Estilo general para todas nuestras secciones principales */
+.seccion {
+    padding: 60px 0; /* 60px de espacio arriba/abajo, 0 a los lados */
+    text-align: center;
+    opacity: 0;
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ======== ANIMACIONES ==========  */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tarjeta-proyecto.fade-in {
+    animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* ========== MENÚ HAMBURGUESA ========== */
+.menu-hamburguesa {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    gap: 5px;
+}
+
+.menu-hamburguesa span {
+    width: 25px;
+    height: 3px;
+    background-color: var(--text-light);
+    border-radius: 2px;
+    transition: 0.3s ease;
+}
+
+.menu-hamburguesa.active span:nth-child(1) {
+    transform: rotate(45deg) translate(10px, 10px);
+}
+
+.menu-hamburguesa.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.menu-hamburguesa.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* ========== TOGGLE TEMA ========== */
+.toggle-tema {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.toggle-tema:hover {
+    transform: rotate(20deg) scale(1.1);
+}
+
+/* ========== RESPONSIVE - MENÚ MÓVIL ========== */
+@media (max-width: 768px) {
+    .menu-hamburguesa {
+        display: flex;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background-color: var(--bg-dark);
+        padding: 20px 0;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease;
+    }
+
+    .nav-links.active {
+        max-height: 300px;
+    }
+
+    .nav-links li {
+        margin-left: 0;
+        padding: 10px 0;
+    }
+
+    .nav-links a::after {
+        display: none;
+    }
+
+    .nav-links a:hover {
+        color: var(--accent);
+    }
+}
+
+/* ======== 3. SECCIÓN DE PERFIL (HERO) ======== */
+.perfil {
+    background-color: var(--bg-secondary);
+}
+
+.perfil-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; /* 50% = círculo perfecto */
+    object-fit: cover; /* Evita que la imagen se distorsione */
+    border: 5px solid var(--border);
+    margin-bottom: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.perfil-img:hover {
+    transform: scale(1.1) rotate(2deg);
+    box-shadow: 0 8px 16px var(--shadow-hover);
+}
